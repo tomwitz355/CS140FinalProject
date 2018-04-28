@@ -135,7 +135,70 @@ public class MachineModel{
         });
         
         //SUB
-        INSTRUCTIONS.put(0x10
+        INSTRUCTIONS.put(0x10, arg -> {
+        	int arg1 = memory.getData(cpu.memoryBase + arg);
+        	cpu.accumulator -= arg1;
+        	cpu.incrementIP(1);
+        });
+        
+        //SUBN
+        INSTRUCTIONS.put(0x11, arg -> {
+        	int arg1 = memory.getData(cpu.memoryBase + arg);
+        	int arg2 = memory.getData(cpu.memoryBase + arg1);
+        	cpu.accumulator -= arg2;
+        	cpu.incrementIP(1);
+        });
+        
+        //MULI
+        INSTRUCTIONS.put(0x12, arg -> {
+        	cpu.accumulator *= arg;
+        	cpu.incrementIP(1);
+        });
+        
+        //MUL
+        INSTRUCTIONS.put(0x13, arg -> {
+        	int arg1 = memory.getData(cpu.memoryBase + arg);
+        	cpu.accumulator *= arg1;
+        	cpu.incrementIP(1);
+        });
+        
+        //MULN
+        INSTRUCTIONS.put(0x14, arg -> {
+        	int arg1 = memory.getData(cpu.memoryBase + arg);
+        	int arg2 = memory.getData(cpu.memoryBase + arg1);
+        	cpu.accumulator *= arg2;
+        	cpu.incrementIP(1);
+        });
+        
+        //DIVI
+        INSTRUCTIONS.put(0x15, arg -> {
+        	if (arg == 0) {
+        		throw new DivideByZeroException();
+        	}
+        	cpu.accumulator /= arg;
+        	cpu.incrementIP(1);
+        });
+        
+        //DIV
+        INSTRUCTIONS.put(0x16, arg -> {
+        	int arg1 = memory.getData(cpu.memoryBase + arg);
+        	if(arg1 == 0) {
+        		throw new DivideByZeroException();
+        	}
+        	cpu.accumulator /= arg1;
+        	cpu.incrementIP(1);
+        });
+        
+        //DIVN
+        INSTRUCTIONS.put(0x17, arg -> {
+        	int arg1 = memory.getData(cpu.memoryBase + arg);
+        	int arg2 = memory.getData(cpu.memoryBase + arg1);
+        	if(arg2 == 0) {
+        		throw new DivideByZeroException();
+        	}
+        	cpu.accumulator/= arg2;
+        	cpu.incrementIP(1);
+        });
     }
 
 }
