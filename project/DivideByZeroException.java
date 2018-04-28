@@ -16,5 +16,3 @@ public class DivideByZeroException extends RuntimeException {
         super(arg0);
     }
 }
-
-//test

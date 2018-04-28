@@ -45,6 +45,9 @@ public class MachineModel{
             cpu.accumulator += arg2;
             cpu.incrementIP(1);
         });
+        
+        //Thomas's code starts here
+        
 
     }
 
