@@ -47,8 +47,95 @@ public class MachineModel{
         });
         
         //Thomas's code starts here
+        //NOP
+        INSTRUCTIONS.put(0, arg -> { 
+        	cpu.incrementIP(1);});
         
-
+        //LODI
+        INSTRUCTIONS.put(1, arg -> { 
+        	cpu.accumulator = arg;
+        	cpu.incrementIP(1);
+        });
+        
+        //LOD
+        INSTRUCTIONS.put(2, arg -> {
+        	int arg1 = memory.getData(cpu.memoryBase + arg);
+        	cpu.accumulator = arg1;
+        	cpu.incrementIP(1);
+        });
+        
+        //LODN
+        INSTRUCTIONS.put(3, arg -> {
+        	int val = memory.getData(cpu.memoryBase + arg);
+        	cpu.accumulator = memory.getData(cpu.memoryBase + val);
+        	cpu.incrementIP(1);
+        });
+        
+        //STO
+        INSTRUCTIONS.put(4, arg -> {
+        	memory.setData(cpu.memoryBase += arg, cpu.accumulator);
+        	cpu.incrementIP(1);
+        });
+        
+        //STON
+        INSTRUCTIONS.put(5, arg -> {
+        	int val = memory.getData(cpu.memoryBase + arg);
+        	memory.setData(cpu.memoryBase + val, cpu.accumulator);
+        });
+        
+        //JMPR
+        INSTRUCTIONS.put(6, arg -> {
+        	cpu.instructionPointer += arg;
+        });
+        
+        //JUMP
+        INSTRUCTIONS.put(7, arg -> {
+        	cpu.instructionPointer += memory.getData(cpu.memoryBase + arg);
+        });
+        
+        //JUMPI
+        INSTRUCTIONS.put(8, arg -> {
+        	cpu.instructionPointer = arg;
+        });
+        
+        //JUMPZR
+        INSTRUCTIONS.put(9, arg -> {
+        	if(cpu.accumulator == 0) {
+        		cpu.instructionPointer += arg;
+        	}
+        	else {
+        		cpu.incrementIP(1);
+        	}
+        });
+        
+        //JMPZ
+        INSTRUCTIONS.put(0xA, arg -> {
+        	if(cpu.accumulator == 0) {
+        		cpu.instructionPointer += memory.getData(cpu.memoryBase + arg);
+        	}
+        	else {
+        		cpu.incrementIP(1);
+        	}
+        });
+        
+        //JMPZI
+        INSTRUCTIONS.put(0xB, arg -> {
+        	if(cpu.accumulator == 0) {
+        		cpu.instructionPointer = arg;
+        	}
+        	else {
+        		cpu.incrementIP(1);
+        	}        	
+        });
+        
+        //SUBI
+        INSTRUCTIONS.put(0xF, arg -> {
+        	cpu.accumulator -= arg;
+        	cpu.incrementIP(1);
+        });
+        
+        //SUB
+        INSTRUCTIONS.put(0x10
     }
 
 }
