@@ -199,6 +199,83 @@ public class MachineModel{
         	cpu.accumulator/= arg2;
         	cpu.incrementIP(1);
         });
-    }
+        
+        //ANDI
+        INSTRUCTIONS.put(0x18, arg -> {
+        	if(cpu.accumulator != 0 && arg != 0) {
+        			cpu.accumulator = 1;
+        		}
+        	else {
+        		cpu.accumulator = 0;
+        	}
+        	cpu.incrementIP(1);
+        });
+        
+        //AND
+        INSTRUCTIONS.put(0x19, arg -> {
+        	int arg1 = memory.getData(cpu.memoryBase + arg);
+        	if(cpu.accumulator != 0 && arg1 != 0) {
+        		cpu.accumulator = 1;
+        	}
 
+        	else {
+        		cpu.accumulator = 0;
+        	}
+        	cpu.incrementIP(1);        	
+        });
+        
+        //NOT
+        INSTRUCTIONS.put(0x1A, arg -> {
+        	if(cpu.accumulator != 0) {
+        		cpu.accumulator = 0;
+        	}
+        	if(cpu.accumulator == 0) {
+        		cpu.accumulator = 1;
+        	}
+        	cpu.incrementIP(1);
+        });
+        
+        //CMPL
+        INSTRUCTIONS.put(0x1B, arg -> {
+        	if(cpu.memoryBase + arg < 0) {
+        		cpu.accumulator = 1;
+        	}
+        	else {
+        		cpu.accumulator = 0;
+        	}
+        	cpu.incrementIP(1);
+        });
+        
+        //CMPZ
+        INSTRUCTIONS.put(0x1C, arg -> {
+        	if( cpu.memoryBase + arg == 0) {
+        		cpu.accumulator = 1;
+        	}
+        	else {
+        		cpu.accumulator = 0;
+        	}
+        	cpu.incrementIP(1);
+        });
+        
+        //HALT
+        INSTRUCTIONS.put(0x1F, arg -> {
+        	callback.halt();
+        });
+    }
+    
+    int[] getData() {
+    	return memory.getDataArray();
+    }
+    
+    public int getData(int index) {
+    	return memory.getData(index);
+    }
+    
+    public void setData(int index, int value) {
+    	memory.setData(index, value);
+    }
+    
+    public Instruction get(int index) {
+    	return INSTRUCTIONS.get(index);
+    }
 }
